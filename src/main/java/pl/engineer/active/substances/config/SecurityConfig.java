@@ -59,6 +59,7 @@ public class SecurityConfig {
                         a ->
                                 a.requestMatchers("/api/v1/login", "/api/v1/register", "/api/v1/unsecured", "/category")
                                         .permitAll()
+                                        .requestMatchers("/doctor/**").hasAnyRole("DOCTOR", "ADMIN")
                                         .requestMatchers("/**").permitAll()
                                         .anyRequest()
                                         .authenticated())
