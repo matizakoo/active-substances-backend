@@ -1,12 +1,9 @@
 package pl.engineer.active.substances.controller;
 
-import okhttp3.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.engineer.active.substances.dto.InfoDTO;
-import pl.engineer.active.substances.entity.ActiveSubstanceEntity;
 import pl.engineer.active.substances.entity.CureEntity;
 import pl.engineer.active.substances.entity.DiseaseEntity;
 import pl.engineer.active.substances.repository.DiseaseRepository;
@@ -29,7 +26,7 @@ public class DiseaseController {
     public ResponseEntity<InfoDTO> aa() {
         for(DiseaseEntity entity: diseaseRepository.findAll()) {
             System.out.println(entity.toString());
-            for(CureEntity entity1: entity.getActiveSubstances()) {
+            for(CureEntity entity1: entity.getCureEntityList()) {
                 System.out.println("x: " + entity1.getDiseaseEntity());
             }
         }

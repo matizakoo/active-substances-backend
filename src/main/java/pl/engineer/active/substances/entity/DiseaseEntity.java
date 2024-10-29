@@ -26,5 +26,5 @@ public class DiseaseEntity {
     private String description;
 
     @OneToMany(mappedBy = "diseaseEntity")
-    private List<CureEntity> activeSubstances = new ArrayList<>();
+    private List<CureEntity> cureEntityList = new ArrayList<>();
 }
