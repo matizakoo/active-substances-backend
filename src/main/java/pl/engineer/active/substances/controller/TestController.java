@@ -9,7 +9,7 @@ import pl.engineer.active.substances.user.UserRegistrationDTO;
 import pl.engineer.active.substances.user.UserService;
 
 
-@CrossOrigin("*")
+
 @RestController
 @RequestMapping("/api/v1")
 public class TestController {

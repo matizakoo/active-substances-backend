@@ -46,15 +46,11 @@ public class SecurityConfig {
         final UserAuthenticationFilter userAuthenticationFilter = new UserAuthenticationFilter(jwtUtil, daoAuthenticationProvider());
         userAuthenticationFilter.setFilterProcessesUrl("/api/v1/login");
 
-        http.cors(cors -> cors.configurationSource(request -> {
-                    CorsConfiguration configuration = new CorsConfiguration();
-                    configuration.setAllowedOrigins(Arrays.asList("*"));
-                    configuration.setAllowedMethods(Arrays.asList("*"));
-                    configuration.setAllowedHeaders(Arrays.asList("*"));
-                    return configuration;
-                }))
+        http
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilter(userAuthenticationFilter)
+                .headers(headers -> headers
+                        .cacheControl(cache -> cache.disable()))
                 .authorizeHttpRequests(
                         a ->
                                 a.requestMatchers("/api/v1/login", "/api/v1/register", "/api/v1/unsecured", "/category")
@@ -63,6 +59,17 @@ public class SecurityConfig {
                                         .requestMatchers("/**").permitAll()
                                         .anyRequest()
                                         .authenticated())
+                .cors(cors -> cors.configurationSource(request -> {
+                    CorsConfiguration configuration = new CorsConfiguration();
+                    configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+                    configuration.setAllowedHeaders(Arrays.asList("Origin", "Access-Control-Allow-Origin", "Content-Type",
+                            "Accept", "Authorization", "auth-token", "Origin, Accept", "X-Requested-With",
+                            "Access-Control-Request-Method", "Access-Control-Request-Headers", "application/json"));
+                    configuration.setExposedHeaders(Arrays.asList("Origin", "Authorization", "Content-Type", "Accept", "auth-token",
+                            "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "auth-token"));
+                    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                    return configuration;
+                }))
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
@@ -71,15 +78,19 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
-        configuration.setExposedHeaders(Arrays.asList("auth-token", "Content-Length", "Expires"));
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        corsConfiguration.setAllowedHeaders(Arrays.asList("Origin", "Access-Control-Allow-Origin", "Content-Type",
+                "Accept", "auth-token", "Origin, Accept", "X-Requested-With",
+                "Access-Control-Request-Method", "Access-Control-Request-Headers", "application/json"));
+        corsConfiguration.setExposedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "auth-token",
+                "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "auth-token"));
+        corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
 
     @Bean
     public org.springframework.web.filter.CorsFilter corsFilter() {

@@ -1,5 +1,6 @@
 package pl.engineer.active.substances.controller;
 
+import org.apache.tomcat.util.openssl.SSL_set_info_callback$cb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class ActiveSubstancesController {
     public ResponseEntity<InfoDTO> createActiveSubstance(@RequestBody ActiveSubstanceEntity activeSubstanceEntity) {
         System.out.println(activeSubstanceEntity.toString());
         activeSubstancesRepository.save(activeSubstanceEntity);
-        return null;
+        return ResponseEntity.ok(new InfoDTO("ok"));
     }
 
     @GetMapping
