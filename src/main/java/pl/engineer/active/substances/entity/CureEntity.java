@@ -1,5 +1,6 @@
 package pl.engineer.active.substances.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,5 +20,6 @@ public class CureEntity {
     private DiseaseEntity diseaseEntity;
     @ManyToOne
     @JoinColumn(name = "active_substance_id", nullable = false)
+    @JsonBackReference
     private ActiveSubstanceEntity activeSubstanceEntity;
 }

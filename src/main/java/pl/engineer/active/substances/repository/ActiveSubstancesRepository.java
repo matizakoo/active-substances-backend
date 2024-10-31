@@ -26,4 +26,6 @@ public interface ActiveSubstancesRepository extends JpaRepository<ActiveSubstanc
             @Param("diseaseName") String diseaseName,
             @Param("existingSubstances") List<Integer> existingSubstances
     );
+
+    ActiveSubstanceEntity findByName(String nameOfSubstance);
 }

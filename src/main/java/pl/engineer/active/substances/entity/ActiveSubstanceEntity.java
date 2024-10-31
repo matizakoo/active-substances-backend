@@ -1,6 +1,7 @@
 package pl.engineer.active.substances.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -26,7 +27,10 @@ public class ActiveSubstanceEntity {
     private Boolean pregnance;
     @NotNull
     private String dosage;
+    @NotNull
+    private String description;
 
     @OneToMany(mappedBy = "activeSubstanceEntity")
+    @JsonManagedReference
     private List<CureEntity> diseases = new ArrayList<>();
 }
