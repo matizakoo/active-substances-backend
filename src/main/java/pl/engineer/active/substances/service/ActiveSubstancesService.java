@@ -25,12 +25,12 @@ public class ActiveSubstancesService {
         activeSubstancesRepository.save(activeSubstanceEntity);
     }
 
-    public void addNewActiveSubstance(ActiveSubstanceEntity activeSubstanceEntity) {
-        ActiveSubstanceEntity activeSubstanceEntityRep = activeSubstancesRepository.findByName(activeSubstanceEntity.getName());
+    public void addNewActiveSubstance(ActiveSubstanceDTO activeSubstanceDTO) {
+        ActiveSubstanceEntity activeSubstanceEntityRep = activeSubstancesRepository.findByName(activeSubstanceDTO.getName());
         if (activeSubstanceEntityRep != null) {
             throw new ActiveSubstanceException("Czynnik aktywny istnieje");
         }
-        save(activeSubstanceEntity);
+        save(activeSubstancesMapper.mapActiveSubstancesDTOToActiveSubstancesEntity(activeSubstanceDTO));
     }
 
     public List<ActiveSubstanceDTO> getAllActiveSubstances() {

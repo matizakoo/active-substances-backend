@@ -17,6 +17,7 @@ public interface ActiveSubstancesMapper {
 //            @Mapping(source = "id", target = "id"),
 //            @Mapping(source = "nameOfProvider", target = "nameOfProvider")
 //    })
-    ActiveSubstanceDTO mapActiveSubstancesEntityToActiveSubstancesDTO(ActiveSubstanceEntity activeSubstanceEntityList);
+    ActiveSubstanceDTO mapActiveSubstancesEntityToActiveSubstancesDTO(ActiveSubstanceEntity activeSubstanceEntity);
     List<ActiveSubstanceDTO> mapActiveSubstancesEntityToActiveSubstancesDTO(List<ActiveSubstanceEntity> activeSubstanceEntityList);
+    ActiveSubstanceEntity mapActiveSubstancesDTOToActiveSubstancesEntity(ActiveSubstanceDTO activeSubstanceDTO);
 }

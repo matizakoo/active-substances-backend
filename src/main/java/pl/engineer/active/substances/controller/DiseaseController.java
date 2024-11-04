@@ -1,35 +1,38 @@
 package pl.engineer.active.substances.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.engineer.active.substances.dto.ActiveSubstanceDTO;
+import pl.engineer.active.substances.dto.DiseaseDTO;
 import pl.engineer.active.substances.dto.InfoDTO;
 import pl.engineer.active.substances.entity.CureEntity;
 import pl.engineer.active.substances.entity.DiseaseEntity;
-import pl.engineer.active.substances.repository.DiseaseRepository;
+import pl.engineer.active.substances.service.CureService;
+import pl.engineer.active.substances.service.DiseaseService;
+
+import java.util.List;
 
 import static pl.engineer.active.substances.controller.advice.Endpoint.DISEASE;
 import static pl.engineer.active.substances.controller.advice.Endpoint.DOCTOR;
 
 @RestController
 @RequestMapping(value = DOCTOR + DISEASE)
+@AllArgsConstructor
 public class DiseaseController {
-    @Autowired
-    private DiseaseRepository diseaseRepository;
+    private final DiseaseService diseaseService;
+    private final CureService cureService;
     @PostMapping
-    public ResponseEntity<InfoDTO> hi(@RequestBody DiseaseEntity diseaseEntity){
-        diseaseRepository.save(diseaseEntity);
-        return null;
+    public ResponseEntity<InfoDTO> createActiveSubstance(@RequestBody @Valid DiseaseDTO diseaseDTO) {
+        diseaseService.addNewDisease(diseaseDTO);
+        cureService.saveRelationList(diseaseDTO);
+        return ResponseEntity.ok(new InfoDTO("ok"));
     }
 
     @GetMapping
-    public ResponseEntity<InfoDTO> aa() {
-        for(DiseaseEntity entity: diseaseRepository.findAll()) {
-            System.out.println(entity.toString());
-            for(CureEntity entity1: entity.getCureEntityList()) {
-                System.out.println("x: " + entity1.getDiseaseEntity());
-            }
-        }
-        return ResponseEntity.ok(new InfoDTO("kk"));
+    public ResponseEntity<List<DiseaseDTO>> getAllDiseases() {
+        System.out.println("hhi");
+        return ResponseEntity.ok(diseaseService.findAllDiseases());
     }
 }

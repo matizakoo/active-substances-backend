@@ -19,7 +19,7 @@ import java.util.List;
 public class ActiveSubstanceEntity {
     @Id
     @JsonIgnore
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @NotNull
     private String name;
@@ -29,8 +29,7 @@ public class ActiveSubstanceEntity {
     private String dosage;
     @NotNull
     private String description;
-
     @OneToMany(mappedBy = "activeSubstanceEntity")
-    @JsonManagedReference
     private List<CureEntity> diseases = new ArrayList<>();
+
 }

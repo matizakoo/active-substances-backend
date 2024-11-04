@@ -3,23 +3,26 @@ package pl.engineer.active.substances.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "cure")
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CureEntity {
     @Id
     @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @ManyToOne
-    @JoinColumn(name = "disease_id", nullable = false)
+    @JsonBackReference
+    @JoinColumn(name = "disease_id", nullable = true)
     private DiseaseEntity diseaseEntity;
     @ManyToOne
-    @JoinColumn(name = "active_substance_id", nullable = false)
     @JsonBackReference
+    @JoinColumn(name = "active_substance_id", nullable = true)
     private ActiveSubstanceEntity activeSubstanceEntity;
 }

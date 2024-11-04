@@ -23,8 +23,9 @@ public class ActiveSubstancesController {
     private final ActiveSubstancesRepository activeSubstancesRepository;
     private final ActiveSubstancesService activeSubstancesService;
     @PostMapping
-    public ResponseEntity<InfoDTO> createActiveSubstance(@RequestBody @Valid ActiveSubstanceEntity activeSubstanceEntity) {
-        activeSubstancesService.addNewActiveSubstance(activeSubstanceEntity);
+    public ResponseEntity<InfoDTO> createActiveSubstance(@RequestBody @Valid ActiveSubstanceDTO activeSubstanceDTO) {
+        System.out.println(activeSubstanceDTO.toString());
+        activeSubstancesService.addNewActiveSubstance(activeSubstanceDTO);
         return ResponseEntity.ok(new InfoDTO("ok"));
     }
 
