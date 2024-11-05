@@ -4,8 +4,10 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.engineer.active.substances.ActiveSubstances;
+import pl.engineer.active.substances.dto.ActiveSubstanceConflictDTO;
 import pl.engineer.active.substances.dto.ActiveSubstanceDTO;
 import pl.engineer.active.substances.entity.ActiveSubstanceEntity;
+import pl.engineer.active.substances.entity.ActiveSubstancesConflictEntity;
 import pl.engineer.active.substances.exception.ActiveSubstanceException;
 import pl.engineer.active.substances.mapper.ActiveSubstancesMapper;
 import pl.engineer.active.substances.repository.ActiveSubstancesRepository;
@@ -19,6 +21,7 @@ public class ActiveSubstancesService {
     private ActiveSubstancesRepository activeSubstancesRepository;
     @Autowired
     private ActiveSubstancesMapper activeSubstancesMapper;
+
 
     @Transactional
     public void save(ActiveSubstanceEntity activeSubstanceEntity) {
@@ -43,5 +46,9 @@ public class ActiveSubstancesService {
                         entity.getDescription()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    public ActiveSubstanceEntity findActiveSubstanceById(Integer id) {
+        return activeSubstancesRepository.findById(id).get();
     }
 }

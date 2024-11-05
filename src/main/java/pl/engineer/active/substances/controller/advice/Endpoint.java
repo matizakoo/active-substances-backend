@@ -4,4 +4,5 @@ public class Endpoint {
     public static final String DOCTOR = "/doctor";
     public static final String DISEASE = "/disease";
     public static final String ACTIVE_SUBSTANCES = "/activeSubstances";
+    public static final String ACTIVE_SUBSTANCES_CONFLICTS = "/activeSubstancesConflicts";
 }
