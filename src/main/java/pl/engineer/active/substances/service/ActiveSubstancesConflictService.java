@@ -45,7 +45,7 @@ public class ActiveSubstancesConflictService {
 
     public String createConflict(ActiveSubstanceConflictDTO activeSubstanceConflictDTO) {
         ActiveSubstancesConflictEntity activeSubstancesConflictEntity = null;
-        String info = "Wykluczające się substancje dla " + activeSubstanceConflictDTO.getActivesubstanceDTO().getName() + " istniały wraz z: ";
+        String info = "Wykluczające się czynniki aktywne dla " + activeSubstanceConflictDTO.getActivesubstanceDTO().getName() + " istniały wraz z: ";
         StringBuilder stringBuilder = new StringBuilder();
         for(ActiveSubstanceDTO e: activeSubstanceConflictDTO.getActiveSubstanceDTOList()) {
             if (activeSubstanceConflictDTO.getActivesubstanceDTO().getId().equals(e.getId()))

@@ -2,7 +2,6 @@ package pl.engineer.active.substances.service;
 
 
 import jakarta.transaction.Transactional;
-import org.hibernate.engine.internal.UnsavedValueFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.engineer.active.substances.dto.ActiveSubstanceDTO;
@@ -28,7 +27,7 @@ public class CureService {
     }
 
     public void saveRelationList(DiseaseDTO diseaseDTO) {
-        DiseaseEntity diseaseEntity = diseaseService.getDisease(diseaseDTO.getName());
+        DiseaseEntity diseaseEntity = diseaseService.getDiseaseByName(diseaseDTO.getName());
         CureEntity cureEntity = null;
         for(ActiveSubstanceDTO e: diseaseDTO.getActiveSubstancesDTOList()) {
             cureEntity = CureEntity.builder()

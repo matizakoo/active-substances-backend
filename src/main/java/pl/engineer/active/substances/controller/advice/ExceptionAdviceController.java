@@ -11,16 +11,8 @@ import pl.engineer.active.substances.exception.ContractorException;
 
 @ControllerAdvice
 public class ExceptionAdviceController {
-    @ExceptionHandler
-    public ResponseEntity<InfoDTO> handleCategoryException(CategoryException e) {
-        return ResponseEntity.ok(new InfoDTO("dsa"));
-//        return ResponseHelper.response400(e.getMessage());
-    }
-
-    @ExceptionHandler
+    @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<InfoDTO> handleContractorException(RuntimeException e) {
         return ResponseHelper.response400(e.getMessage());
     }
-
-
 }

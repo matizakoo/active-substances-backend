@@ -13,7 +13,6 @@ import pl.engineer.active.substances.repository.DiseaseRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 @Service
 public class DiseaseService {
@@ -55,7 +54,7 @@ public class DiseaseService {
         return diseaseDTOList;
     }
 
-    public DiseaseEntity getDisease(String name) {
+    public DiseaseEntity getDiseaseByName(String name) {
         return diseaseRepository.findByName(name);
     }
 }
