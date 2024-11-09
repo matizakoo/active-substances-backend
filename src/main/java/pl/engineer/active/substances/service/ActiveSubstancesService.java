@@ -60,8 +60,8 @@ public class ActiveSubstancesService {
         return activeSubstancesRepository.findByDisease(diseaseEntity);
     }
 
-    public List<ActiveSubstanceEntity> findConflictingSubstances(List<ActiveSubstanceEntity> activeSubstanceEntityList) {
-        return activeSubstancesConflictRepository.findConflictingSubstances(activeSubstanceEntityList);
+    public List<ActiveSubstanceEntity> findConflictingSubstances(List<ActiveSubstanceEntity> activeSubstanceEntityList, Boolean pregnancy) {
+        return activeSubstancesConflictRepository.findConflictingSubstances(activeSubstanceEntityList, pregnancy);
     }
 
 

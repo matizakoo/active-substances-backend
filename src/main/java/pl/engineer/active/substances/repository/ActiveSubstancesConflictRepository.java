@@ -29,6 +29,8 @@ public interface ActiveSubstancesConflictRepository extends JpaRepository<Active
     @Query("SELECT a FROM ActiveSubstanceEntity a WHERE a.id IN (" +
             "SELECT c.conflictingSubstance.id FROM ActiveSubstancesConflictEntity c WHERE c.substance IN :substances " +
             "UNION " +
-            "SELECT c.substance.id FROM ActiveSubstancesConflictEntity c WHERE c.conflictingSubstance IN :substances)")
-    List<ActiveSubstanceEntity> findConflictingSubstances(@Param("substances") List<ActiveSubstanceEntity> substances);
+            "SELECT c.substance.id FROM ActiveSubstancesConflictEntity c WHERE c.conflictingSubstance IN :substances) " +
+            "AND a.pregnance = :pregnancy")
+    List<ActiveSubstanceEntity> findConflictingSubstances(@Param("substances") List<ActiveSubstanceEntity> substances,
+                                                          @Param("pregnancy") Boolean pregnancy);
 }

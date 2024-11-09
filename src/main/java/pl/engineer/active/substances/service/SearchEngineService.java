@@ -62,7 +62,7 @@ public class SearchEngineService {
             for (ActiveSubstanceDTO activeSubstanceDTO : diseaseDTO.getActiveSubstancesDTOList()) {
                 activeSubstanceEntitiesList.add(activeSubstancesMapper.mapActiveSubstancesDTOToActiveSubstancesEntity(activeSubstanceDTO));
             }
-            List<ActiveSubstanceEntity> activeSubstanceEntities = activeSubstancesService.findConflictingSubstances(activeSubstanceEntitiesList);
+            List<ActiveSubstanceEntity> activeSubstanceEntities = activeSubstancesService.findConflictingSubstances(activeSubstanceEntitiesList, searchEngineDTO.getPregnance());
 
             List<ActiveSubstanceEntity> filteredList = activeSubstanceEntitiesList.stream()
                     .filter(mainSubstance -> activeSubstanceEntities.stream()
