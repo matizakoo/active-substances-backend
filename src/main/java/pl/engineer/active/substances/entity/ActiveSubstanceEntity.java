@@ -10,6 +10,7 @@ import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "active_substance")
@@ -32,4 +33,16 @@ public class ActiveSubstanceEntity {
     @OneToMany(mappedBy = "activeSubstanceEntity")
     private List<CureEntity> diseases = new ArrayList<>();
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ActiveSubstanceEntity that = (ActiveSubstanceEntity) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

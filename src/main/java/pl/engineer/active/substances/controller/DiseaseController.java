@@ -32,7 +32,6 @@ public class DiseaseController {
 
     @GetMapping
     public ResponseEntity<List<DiseaseDTO>> getAllDiseases() {
-        System.out.println("hhi");
         return ResponseEntity.ok(diseaseService.findAllDiseases());
     }
 }

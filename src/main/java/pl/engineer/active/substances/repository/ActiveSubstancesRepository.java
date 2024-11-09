@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import pl.engineer.active.substances.entity.ActiveSubstanceEntity;
 import pl.engineer.active.substances.entity.ActiveSubstancesConflictEntity;
+import pl.engineer.active.substances.entity.DiseaseEntity;
 
 import java.util.List;
 
@@ -27,6 +28,14 @@ public interface ActiveSubstancesRepository extends JpaRepository<ActiveSubstanc
             @Param("diseaseName") String diseaseName,
             @Param("existingSubstances") List<Integer> existingSubstances
     );
+
+    @Query("SELECT a FROM ActiveSubstanceEntity a JOIN CureEntity c ON a.id = c.activeSubstanceEntity.id WHERE c.diseaseEntity = :disease")
+    List<ActiveSubstanceEntity> findByDisease(@Param("disease") DiseaseEntity disease);
+
+    @Query("SELECT DISTINCT a FROM ActiveSubstanceEntity a " +
+            "JOIN CureEntity c ON c.activeSubstanceEntity = a " +
+            "WHERE c.diseaseEntity.id IN :diseaseIds")
+    List<ActiveSubstanceEntity> findActiveSubstancesByDiseases(@Param("diseaseIds") List<Integer> diseaseIds);
 
     ActiveSubstanceEntity findByName(String nameOfSubstance);
 }

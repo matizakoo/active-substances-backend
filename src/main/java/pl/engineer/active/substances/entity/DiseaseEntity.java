@@ -12,6 +12,7 @@ import pl.engineer.active.substances.dto.ActiveSubstanceDTO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "disease")
@@ -29,4 +30,18 @@ public class DiseaseEntity {
 
     @OneToMany(mappedBy = "diseaseEntity")
     private List<CureEntity> activeSubstancesDTOList = new ArrayList<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DiseaseEntity that = (DiseaseEntity) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
 }

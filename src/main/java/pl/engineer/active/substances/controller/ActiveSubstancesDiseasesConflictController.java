@@ -4,11 +4,11 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.engineer.active.substances.dto.ActiveSubstanceConflictDTO;
 import pl.engineer.active.substances.dto.ActiveSubstancesDiseasesConflictDTO;
+import pl.engineer.active.substances.dto.DiseaseDTO;
 import pl.engineer.active.substances.dto.InfoDTO;
-import pl.engineer.active.substances.entity.ActiveSubstancesDiseasesConflictEntity;
 import pl.engineer.active.substances.service.ActiveSubstancesDiseasesConflictService;
+import pl.engineer.active.substances.service.DiseaseService;
 
 import java.util.List;
 
@@ -19,6 +19,7 @@ import static pl.engineer.active.substances.controller.advice.Endpoint.*;
 @AllArgsConstructor
 public class ActiveSubstancesDiseasesConflictController {
     private final ActiveSubstancesDiseasesConflictService activeSubstancesDiseasesConflictService;
+    private final DiseaseService diseaseService;
     @PostMapping
     private ResponseEntity<InfoDTO> createConflict(@RequestBody ActiveSubstancesDiseasesConflictDTO activeSubstancesDiseasesConflictDTO) {
         activeSubstancesDiseasesConflictService.createActiveSubstancesDiseasesConflict(activeSubstancesDiseasesConflictDTO);
@@ -27,7 +28,11 @@ public class ActiveSubstancesDiseasesConflictController {
 
     @GetMapping
     private ResponseEntity<List<ActiveSubstancesDiseasesConflictDTO>> getAll() {
-        System.out.println(activeSubstancesDiseasesConflictService.getConflictsGroupedBySubstance());
         return ResponseEntity.ok(activeSubstancesDiseasesConflictService.getConflictsGroupedBySubstance());
+    }
+
+    @GetMapping(value = "/activeSubstanceId/{id}")
+    private ResponseEntity<List<DiseaseDTO>> getDiseasesNotInConflictWithActiveSubstance(@PathVariable(name = "id") Integer id) {
+        return ResponseEntity.ok(diseaseService.getAllDiseasesNotInConflictWithActiveSubstance(id));
     }
 }

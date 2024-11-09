@@ -9,6 +9,7 @@ import pl.engineer.active.substances.entity.DiseaseEntity;
 import pl.engineer.active.substances.exception.ActiveSubstanceException;
 import pl.engineer.active.substances.mapper.ActiveSubstancesMapper;
 import pl.engineer.active.substances.mapper.DiseaseMapper;
+import pl.engineer.active.substances.repository.ActiveSubstancesDiseasesConflictRepository;
 import pl.engineer.active.substances.repository.DiseaseRepository;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ import java.util.List;
 public class DiseaseService {
     @Autowired
     private DiseaseRepository diseaseRepository;
+    @Autowired
+    private ActiveSubstancesDiseasesConflictRepository activeSubstancesDiseasesConflictRepository;
     @Autowired
     private DiseaseMapper diseaseMapper;
     @Autowired
@@ -50,11 +53,18 @@ public class DiseaseService {
             }
             diseaseDTOList.add(diseaseDTO);
         }
-        System.out.println(diseaseDTOList);
         return diseaseDTOList;
     }
 
     public DiseaseEntity getDiseaseByName(String name) {
         return diseaseRepository.findByName(name);
+    }
+
+    public List<DiseaseDTO> getAllDiseasesNotInConflictWithActiveSubstance(Integer id) {
+        return diseaseMapper.mapActiveSubstancesEntityToActiveSubstancesDTO(activeSubstancesDiseasesConflictRepository.findDiseasesNotInRelationWithSubstance(id));
+    }
+
+    public List<Object[]> findDiseaseWithActiveSubstances(boolean pregnancy, List<Integer> diseaseIds) {
+        return diseaseRepository.findDiseaseWithActiveSubstances(pregnancy, diseaseIds);
     }
 }

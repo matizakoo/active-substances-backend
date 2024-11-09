@@ -10,6 +10,7 @@ import pl.engineer.active.substances.dto.ActiveSubstancesDiseasesConflictDTO;
 import pl.engineer.active.substances.dto.DiseaseDTO;
 import pl.engineer.active.substances.entity.ActiveSubstanceEntity;
 import pl.engineer.active.substances.entity.ActiveSubstancesDiseasesConflictEntity;
+import pl.engineer.active.substances.entity.DiseaseEntity;
 import pl.engineer.active.substances.exception.ActiveSubstanceException;
 import pl.engineer.active.substances.exception.ActiveSubstancesDiseasesException;
 import pl.engineer.active.substances.mapper.ActiveSubstancesMapper;
@@ -28,6 +29,9 @@ public class ActiveSubstancesDiseasesConflictService {
     private ActiveSubstancesMapper activeSubstancesMapper;
     @Autowired
     private DiseaseService diseaseService;
+    @Autowired
+    private DiseaseMapper diseaseMapper;
+
 
     @Transactional
     public void save(ActiveSubstancesDiseasesConflictEntity activeSubstancesDiseasesConflictEntity) {
@@ -76,8 +80,20 @@ public class ActiveSubstancesDiseasesConflictService {
     }
 
     private void isConflictExists(ActiveSubstancesDiseasesConflictDTO activeSubstancesDiseasesConflictDTO) {
+        for(DiseaseDTO diseaseDTO: activeSubstancesDiseasesConflictDTO.getDiseaseDTO()) {
+            if(activeSubstancesDiseasesConflictRepository.existsByDiseaseIdAndActiveSubstanceId(diseaseDTO.getId(),
+                    activeSubstancesDiseasesConflictDTO.getActivesubstanceDTO().getId())) {
+                throw new ActiveSubstanceException("Czynnik aktywny jest już powiązany z chorobą " + diseaseDTO.getName());
+            }
+
+        }
+
         if(activeSubstancesDiseasesConflictRepository.existsBySubstanceId(activeSubstancesDiseasesConflictDTO.getActivesubstanceDTO().getId())) {
             throw new ActiveSubstanceException("Czynnik aktywny został już dodany");
         }
+    }
+
+    public List<DiseaseEntity> findConflictingDiseasesBySubstances(List<ActiveSubstanceEntity> substances) {
+        return activeSubstancesDiseasesConflictRepository.findConflictingDiseasesBySubstances(substances);
     }
 }

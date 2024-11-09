@@ -8,8 +8,10 @@ import pl.engineer.active.substances.dto.ActiveSubstanceConflictDTO;
 import pl.engineer.active.substances.dto.ActiveSubstanceDTO;
 import pl.engineer.active.substances.entity.ActiveSubstanceEntity;
 import pl.engineer.active.substances.entity.ActiveSubstancesConflictEntity;
+import pl.engineer.active.substances.entity.DiseaseEntity;
 import pl.engineer.active.substances.exception.ActiveSubstanceException;
 import pl.engineer.active.substances.mapper.ActiveSubstancesMapper;
+import pl.engineer.active.substances.repository.ActiveSubstancesConflictRepository;
 import pl.engineer.active.substances.repository.ActiveSubstancesRepository;
 
 import java.util.List;
@@ -19,6 +21,8 @@ import java.util.stream.Collectors;
 public class ActiveSubstancesService {
     @Autowired
     private ActiveSubstancesRepository activeSubstancesRepository;
+    @Autowired
+    private ActiveSubstancesConflictRepository activeSubstancesConflictRepository;
     @Autowired
     private ActiveSubstancesMapper activeSubstancesMapper;
 
@@ -51,4 +55,14 @@ public class ActiveSubstancesService {
     public ActiveSubstanceEntity findActiveSubstanceById(Integer id) {
         return activeSubstancesRepository.findById(id).get();
     }
+
+    public List<ActiveSubstanceEntity> getAllActiveSubstancesForDiseases(DiseaseEntity diseaseEntity) {
+        return activeSubstancesRepository.findByDisease(diseaseEntity);
+    }
+
+    public List<ActiveSubstanceEntity> findConflictingSubstances(List<ActiveSubstanceEntity> activeSubstanceEntityList) {
+        return activeSubstancesConflictRepository.findConflictingSubstances(activeSubstanceEntityList);
+    }
+
+
 }
