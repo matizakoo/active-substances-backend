@@ -1,1 +1,1 @@
-create database tanielazienki;
+create database inzynierka;

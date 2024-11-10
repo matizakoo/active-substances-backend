@@ -33,5 +33,11 @@ public class ActiveSubstancesController {
         return ResponseEntity.ok(activeSubstancesService.getAllActiveSubstances());
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<InfoDTO> deleteActiveSubstance(@PathVariable(name = "id") Integer id) {
+        activeSubstancesService.deleteActiveSubstance(id);
+        return ResponseEntity.ok(new InfoDTO("ok"));
+    }
+
 
 }

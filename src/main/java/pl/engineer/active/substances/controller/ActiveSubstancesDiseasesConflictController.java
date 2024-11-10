@@ -2,6 +2,7 @@ package pl.engineer.active.substances.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.apache.tomcat.util.openssl.SSL_set_info_callback$cb;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.engineer.active.substances.dto.ActiveSubstancesDiseasesConflictDTO;
@@ -35,4 +36,13 @@ public class ActiveSubstancesDiseasesConflictController {
     private ResponseEntity<List<DiseaseDTO>> getDiseasesNotInConflictWithActiveSubstance(@PathVariable(name = "id") Integer id) {
         return ResponseEntity.ok(diseaseService.getAllDiseasesNotInConflictWithActiveSubstance(id));
     }
+
+    @DeleteMapping
+    private ResponseEntity<InfoDTO> getDiseasesNotInConflictWithActiveSubstance(@RequestParam(name = "id") Integer id,
+                                                                                         @RequestParam(name = "id2") Integer id2) {
+        activeSubstancesDiseasesConflictService.deleteRelation(id, id2);
+        return ResponseEntity.ok(new InfoDTO("ok"));
+    }
+
+
 }

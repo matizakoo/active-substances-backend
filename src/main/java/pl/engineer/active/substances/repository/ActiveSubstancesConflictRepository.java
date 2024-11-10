@@ -1,6 +1,8 @@
 package pl.engineer.active.substances.repository;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -27,10 +29,20 @@ public interface ActiveSubstancesConflictRepository extends JpaRepository<Active
     List<ActiveSubstancesConflictEntity> findAllConflicts();
 
     @Query("SELECT a FROM ActiveSubstanceEntity a WHERE a.id IN (" +
-            "SELECT c.conflictingSubstance.id FROM ActiveSubstancesConflictEntity c WHERE c.substance IN :substances " +
+            "SELECT c.conflictingSubstance.id FROM ActiveSubstancesConflictEntity c WHERE c.substance = :substance " +
             "UNION " +
-            "SELECT c.substance.id FROM ActiveSubstancesConflictEntity c WHERE c.conflictingSubstance IN :substances) " +
-            "AND a.pregnance = :pregnancy")
-    List<ActiveSubstanceEntity> findConflictingSubstances(@Param("substances") List<ActiveSubstanceEntity> substances,
-                                                          @Param("pregnancy") Boolean pregnancy);
+            "SELECT c.substance.id FROM ActiveSubstancesConflictEntity c WHERE c.conflictingSubstance = :substance)")
+    List<ActiveSubstanceEntity> findConflictingSubstances(@Param("substance") ActiveSubstanceEntity substance);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM ActiveSubstancesConflictEntity c WHERE " +
+            "(c.substance.id = :id1 AND c.conflictingSubstance.id = :id2) OR " +
+            "(c.substance.id = :id2 AND c.conflictingSubstance.id = :id1)")
+    void deleteConflictBySubstanceIds(@Param("id1") Integer id1, @Param("id2") Integer id2);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM ActiveSubstancesConflictEntity c WHERE c.substance.id = :substanceId OR c.conflictingSubstance.id = :substanceId")
+    void deleteBySubstanceId(@Param("substanceId") Integer substanceId);
 }

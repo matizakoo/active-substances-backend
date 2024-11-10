@@ -33,4 +33,11 @@ public class ActiveSubstancesConflictController {
         String info = activeSubstancesConflictService.createConflict(activeSubstanceConflictDTO);
         return ResponseEntity.ok(new InfoDTO(info));
     }
+
+    @DeleteMapping
+    public ResponseEntity<InfoDTO> deleteConflict(@RequestParam(name = "id") Integer id, @RequestParam(name = "id2") Integer id2) {
+        activeSubstancesConflictService.deleteConflict(id, id2);
+        return ResponseEntity.ok(new InfoDTO("ok"));
+    }
+
 }

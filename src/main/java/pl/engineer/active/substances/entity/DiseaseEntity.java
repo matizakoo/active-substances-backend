@@ -28,7 +28,7 @@ public class DiseaseEntity {
     private String name;
     private String description;
 
-    @OneToMany(mappedBy = "diseaseEntity")
+    @OneToMany(mappedBy = "diseaseEntity", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<CureEntity> activeSubstancesDTOList = new ArrayList<>();
 
     @Override

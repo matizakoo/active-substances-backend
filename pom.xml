@@ -8,11 +8,11 @@
         <version>3.3.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>pl.tanielazienki</groupId>
-    <artifactId>tanielazienki</artifactId>
+    <groupId>pl.engineer.active</groupId>
+    <artifactId>substances</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>tanielazienki1</name>
-    <description>tanielazienki1</description>
+    <name>inzynierka</name>
+    <description>inzynierka</description>
     <url/>
     <licenses>
         <license/>

@@ -1,6 +1,8 @@
 package pl.engineer.active.substances.repository;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -30,4 +32,22 @@ public interface ActiveSubstancesDiseasesConflictRepository extends JpaRepositor
                                                                @Param("substances") List<ActiveSubstanceEntity> substances);
     @Query("SELECT DISTINCT c.diseaseEntity FROM ActiveSubstancesDiseasesConflictEntity c WHERE c.substance IN :substances")
     List<DiseaseEntity> findConflictingDiseasesBySubstances(@Param("substances") List<ActiveSubstanceEntity> substances);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM ActiveSubstancesDiseasesConflictEntity c WHERE c.diseaseEntity.id = :diseaseId")
+    void deleteByDiseaseId(@Param("diseaseId") Integer diseaseId);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM ActiveSubstancesDiseasesConflictEntity c WHERE c.substance.id = :substanceId")
+    void deleteBySubstanceId(@Param("substanceId") Integer substanceId);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM ActiveSubstancesDiseasesConflictEntity c WHERE c.substance.id = :substanceId AND c.diseaseEntity.id = :diseaseId")
+    void deleteBySubstanceAndDisease(@Param("substanceId") Integer substanceId, @Param("diseaseId") Integer diseaseId);
+
+    @Query("SELECT DISTINCT c.substance FROM ActiveSubstancesDiseasesConflictEntity c WHERE c.diseaseEntity.id IN :diseaseIds")
+    List<ActiveSubstanceEntity> findConflictingSubstancesByDiseaseIds(@Param("diseaseIds") List<Integer> diseaseIds);
 }

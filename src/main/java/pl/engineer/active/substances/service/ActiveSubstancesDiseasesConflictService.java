@@ -1,10 +1,8 @@
 package pl.engineer.active.substances.service;
 
 import jakarta.transaction.Transactional;
-import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.engineer.active.substances.dto.ActiveSubstanceConflictDTO;
 import pl.engineer.active.substances.dto.ActiveSubstanceDTO;
 import pl.engineer.active.substances.dto.ActiveSubstancesDiseasesConflictDTO;
 import pl.engineer.active.substances.dto.DiseaseDTO;
@@ -12,7 +10,6 @@ import pl.engineer.active.substances.entity.ActiveSubstanceEntity;
 import pl.engineer.active.substances.entity.ActiveSubstancesDiseasesConflictEntity;
 import pl.engineer.active.substances.entity.DiseaseEntity;
 import pl.engineer.active.substances.exception.ActiveSubstanceException;
-import pl.engineer.active.substances.exception.ActiveSubstancesDiseasesException;
 import pl.engineer.active.substances.mapper.ActiveSubstancesMapper;
 import pl.engineer.active.substances.mapper.DiseaseMapper;
 import pl.engineer.active.substances.repository.ActiveSubstancesDiseasesConflictRepository;
@@ -37,6 +34,16 @@ public class ActiveSubstancesDiseasesConflictService {
     public void save(ActiveSubstancesDiseasesConflictEntity activeSubstancesDiseasesConflictEntity) {
         activeSubstancesDiseasesConflictRepository.save(activeSubstancesDiseasesConflictEntity);
     }
+
+    public void deleteByIdSubstance(Integer id) {
+        activeSubstancesDiseasesConflictRepository.deleteBySubstanceId(id);
+    }
+
+    public void deleteRelation(Integer id, Integer id2) {
+        activeSubstancesDiseasesConflictRepository.deleteBySubstanceAndDisease(id, id2);
+    }
+
+
 
     public void createActiveSubstancesDiseasesConflict(ActiveSubstancesDiseasesConflictDTO activeSubstancesDiseasesConflictDTO) {
         isConflictExists(activeSubstancesDiseasesConflictDTO);

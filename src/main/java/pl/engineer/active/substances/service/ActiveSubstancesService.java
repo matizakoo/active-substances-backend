@@ -3,11 +3,8 @@ package pl.engineer.active.substances.service;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.engineer.active.substances.ActiveSubstances;
-import pl.engineer.active.substances.dto.ActiveSubstanceConflictDTO;
 import pl.engineer.active.substances.dto.ActiveSubstanceDTO;
 import pl.engineer.active.substances.entity.ActiveSubstanceEntity;
-import pl.engineer.active.substances.entity.ActiveSubstancesConflictEntity;
 import pl.engineer.active.substances.entity.DiseaseEntity;
 import pl.engineer.active.substances.exception.ActiveSubstanceException;
 import pl.engineer.active.substances.mapper.ActiveSubstancesMapper;
@@ -25,6 +22,8 @@ public class ActiveSubstancesService {
     private ActiveSubstancesConflictRepository activeSubstancesConflictRepository;
     @Autowired
     private ActiveSubstancesMapper activeSubstancesMapper;
+    @Autowired
+    private ActiveSubstancesDiseasesConflictService activeSubstancesDiseasesConflictService;
 
 
     @Transactional
@@ -56,13 +55,10 @@ public class ActiveSubstancesService {
         return activeSubstancesRepository.findById(id).get();
     }
 
-    public List<ActiveSubstanceEntity> getAllActiveSubstancesForDiseases(DiseaseEntity diseaseEntity) {
-        return activeSubstancesRepository.findByDisease(diseaseEntity);
+    public void deleteActiveSubstance(Integer id) {
+        ActiveSubstanceEntity activeSubstanceEntity = activeSubstancesRepository.findById(id).get();
+        activeSubstancesDiseasesConflictService.deleteByIdSubstance(id);
+        activeSubstancesConflictRepository.deleteBySubstanceId(id);
+        activeSubstancesRepository.delete(activeSubstanceEntity);
     }
-
-    public List<ActiveSubstanceEntity> findConflictingSubstances(List<ActiveSubstanceEntity> activeSubstanceEntityList, Boolean pregnancy) {
-        return activeSubstancesConflictRepository.findConflictingSubstances(activeSubstanceEntityList, pregnancy);
-    }
-
-
 }

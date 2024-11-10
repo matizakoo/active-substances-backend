@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 public class SearchEngineDTO {
     private Boolean pregnance;
-    private List<DiseaseDTO> diseaseModelDTO; // nowe choroby
+    private DiseaseDTO diseaseModelDTO; // nowa choroba
     private List<DiseaseDTO> diseaseModelDTOList; // aktualne choroby
     private List<ActiveSubstanceDTO> activesubstanceModel;
 }

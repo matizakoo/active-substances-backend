@@ -30,7 +30,7 @@ public class ActiveSubstanceEntity {
     private String dosage;
     @NotNull
     private String description;
-    @OneToMany(mappedBy = "activeSubstanceEntity")
+    @OneToMany(mappedBy = "activeSubstanceEntity", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<CureEntity> diseases = new ArrayList<>();
 
     @Override

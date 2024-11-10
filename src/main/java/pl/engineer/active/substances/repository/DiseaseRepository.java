@@ -1,6 +1,8 @@
 package pl.engineer.active.substances.repository;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -18,4 +20,8 @@ public interface DiseaseRepository extends JpaRepository<DiseaseEntity, Integer>
             "JOIN c.activeSubstanceEntity a " +
             "WHERE d.id IN :diseaseIds AND a.pregnance = :pregnance")
     List<Object[]> findDiseaseWithActiveSubstances(@Param("pregnance") boolean pregnance, @Param("diseaseIds") List<Integer> diseaseIds);
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM ActiveSubstancesDiseasesConflictEntity c WHERE c.diseaseEntity.id = :diseaseId")
+    void deleteByDiseaseId(@Param("diseaseId") Integer diseaseId);
 }

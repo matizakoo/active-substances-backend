@@ -64,4 +64,8 @@ public class ActiveSubstancesConflictService {
         else
             return info + stringBuilder.substring(0, stringBuilder.lastIndexOf(","));
     }
+
+    public void deleteConflict(Integer id, Integer id2) {
+        activeSubstancesConflictRepository.deleteConflictBySubstanceIds(id, id2);
+    }
 }

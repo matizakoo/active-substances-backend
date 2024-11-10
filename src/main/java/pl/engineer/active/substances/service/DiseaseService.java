@@ -67,4 +67,14 @@ public class DiseaseService {
     public List<Object[]> findDiseaseWithActiveSubstances(boolean pregnancy, List<Integer> diseaseIds) {
         return diseaseRepository.findDiseaseWithActiveSubstances(pregnancy, diseaseIds);
     }
+
+    public void deleteDisease(Integer id) {
+        activeSubstancesDiseasesConflictRepository.deleteByDiseaseId(id);
+        DiseaseEntity diseaseEntity = diseaseRepository.findById(id).get();
+        diseaseRepository.delete(diseaseEntity);
+    }
+
+    public void deleteByDiseaseId(Integer id) {
+        activeSubstancesDiseasesConflictRepository.deleteByDiseaseId(id);
+    }
 }

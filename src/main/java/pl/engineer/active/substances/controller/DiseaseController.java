@@ -34,4 +34,12 @@ public class DiseaseController {
     public ResponseEntity<List<DiseaseDTO>> getAllDiseases() {
         return ResponseEntity.ok(diseaseService.findAllDiseases());
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<InfoDTO> deleteDisease(@PathVariable(name = "id") Integer id) {
+        diseaseService.deleteDisease(id);
+        return ResponseEntity.ok(new InfoDTO("ok"));
+    }
+
+
 }
