@@ -77,4 +77,8 @@ public class DiseaseService {
     public void deleteByDiseaseId(Integer id) {
         activeSubstancesDiseasesConflictRepository.deleteByDiseaseId(id);
     }
+
+    public List<DiseaseDTO> getDiseasesNotExistingForPatient(Integer id) {
+         return diseaseMapper.mapActiveSubstancesEntityToActiveSubstancesDTO(diseaseRepository.findDiseasesNotLinkedToPatient(id));
+    }
 }

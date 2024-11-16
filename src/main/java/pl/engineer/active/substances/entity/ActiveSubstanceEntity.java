@@ -1,7 +1,6 @@
 package pl.engineer.active.substances.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -20,7 +19,7 @@ import java.util.Objects;
 public class ActiveSubstanceEntity {
     @Id
     @JsonIgnore
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @NotNull
     private String name;
@@ -32,6 +31,8 @@ public class ActiveSubstanceEntity {
     private String description;
     @OneToMany(mappedBy = "activeSubstanceEntity", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<CureEntity> diseases = new ArrayList<>();
+//    @OneToMany(mappedBy = "activeSubstance", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private List<PatientDiseaseSubstanceEntity> patientDiseaseSubstanceEntities = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

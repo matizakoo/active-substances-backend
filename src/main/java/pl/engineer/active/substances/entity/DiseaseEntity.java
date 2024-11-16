@@ -1,14 +1,13 @@
 package pl.engineer.active.substances.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import pl.engineer.active.substances.dto.ActiveSubstanceDTO;
 
 import java.util.ArrayList;
 import java.util.List;

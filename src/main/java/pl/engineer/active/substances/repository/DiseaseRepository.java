@@ -24,4 +24,12 @@ public interface DiseaseRepository extends JpaRepository<DiseaseEntity, Integer>
     @Transactional
     @Query("DELETE FROM ActiveSubstancesDiseasesConflictEntity c WHERE c.diseaseEntity.id = :diseaseId")
     void deleteByDiseaseId(@Param("diseaseId") Integer diseaseId);
+
+    @Query("SELECT d FROM DiseaseEntity d " +
+            "WHERE d.id NOT IN (" +
+            "    SELECT p.disease.id " +
+            "    FROM PatientDiseaseSubstanceEntity p " +
+            "    WHERE p.patient.id = :patientId" +
+            ")")
+    List<DiseaseEntity> findDiseasesNotLinkedToPatient(@Param("patientId") Integer patientId);
 }

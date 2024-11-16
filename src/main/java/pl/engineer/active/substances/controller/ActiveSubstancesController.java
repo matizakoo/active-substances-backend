@@ -1,5 +1,6 @@
 package pl.engineer.active.substances.controller;
 
+import freemarker.core._ArrayEnumeration;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.apache.tomcat.util.openssl.SSL_set_info_callback$cb;
@@ -39,5 +40,8 @@ public class ActiveSubstancesController {
         return ResponseEntity.ok(new InfoDTO("ok"));
     }
 
-
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<List<ActiveSubstanceDTO>> getActiveSubstanceWithoutConflict(@PathVariable(name = "id") Integer diseaseId) {
+        return null;
+    }
 }

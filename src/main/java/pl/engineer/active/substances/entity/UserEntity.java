@@ -16,6 +16,8 @@ public class UserEntity {
     @Column(unique = true)
     private String username;
     private String password;
+    private String name;
+    private String surname;
 
 
     @ManyToMany(cascade = CascadeType.ALL)

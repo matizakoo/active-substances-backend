@@ -1,10 +1,7 @@
 package pl.engineer.active.substances.dto;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import pl.engineer.active.substances.entity.CureEntity;
 
 import java.util.ArrayList;
@@ -14,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Builder
+@EqualsAndHashCode
 public class DiseaseDTO {
     private Integer id;
     private String name;
