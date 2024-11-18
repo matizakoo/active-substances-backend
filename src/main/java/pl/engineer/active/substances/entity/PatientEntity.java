@@ -26,7 +26,7 @@ public class PatientEntity {
     private Integer age;
     private String gender;
     @ManyToOne
-    @JoinColumn(name = "doctor_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity userEntity;
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference

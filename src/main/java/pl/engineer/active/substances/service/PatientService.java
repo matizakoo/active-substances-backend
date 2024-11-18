@@ -62,6 +62,7 @@ public class PatientService {
         }
 
         PatientEntity patientEntity = patientMapper.toPatientEntity(patientDTO);
+        System.out.println("aa: " + userService.getUserByName(name));
         patientEntity.setUserEntity(userService.getUserByName(name));
 
         save(patientEntity);

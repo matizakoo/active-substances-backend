@@ -14,6 +14,7 @@ import pl.engineer.active.substances.mapper.ActiveSubstancesMapper;
 import pl.engineer.active.substances.mapper.DiseaseMapper;
 import pl.engineer.active.substances.mapper.PatientMapper;
 import pl.engineer.active.substances.mapper.UserMapper;
+import pl.engineer.active.substances.repository.PatientDiseaseRepository;
 import pl.engineer.active.substances.repository.PatientRepository;
 import pl.engineer.active.substances.repository.UserRepository;
 import pl.engineer.active.substances.service.DiseaseService;
@@ -43,9 +44,12 @@ public class PatientRepositoryController {
     private UserRepository userRepository;
     @Autowired
     private DiseaseService diseaseService;
+    @Autowired
+    private PatientDiseaseRepository patientDiseaseRepository;
 
     @PostMapping
     public ResponseEntity<InfoDTO> addNewPatient(@RequestBody PatientDTO patientEntity, @RequestParam(name = "principal") String doctorName) {
+        System.out.println(doctorName);
         patientService.addNewPatient(patientEntity, doctorName);
         return ResponseEntity.ok(new InfoDTO("ok"));
     }
@@ -102,11 +106,12 @@ public class PatientRepositoryController {
                     new DiseaseActiveSubstancesDTO(diseaseDTO, activeSubstances)
             );
         }
-        UserEntity userEntity = userRepository.findUserByPatientId(Integer.valueOf(idPatient));
+        UserEntity userEntity = patientRepository.findUserByPatientId(Integer.valueOf(idPatient));
 
         patientDiseaseSubstanceDTO = new PatientDiseaseSubstanceDTO(
-                userMapper.mapToUserDTO(userEntity),
-                patientDTO, diseaseActiveSubstancesDTO);
+                userMapper.mapToUserDTO(patientEntity.getUserEntity()),
+                patientDTO,
+                diseaseActiveSubstancesDTO);
 
         return ResponseEntity.ok(patientDiseaseSubstanceDTO);
     }
