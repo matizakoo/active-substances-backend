@@ -90,8 +90,19 @@ public class SearchEngineService {
                 substanceToCure -> activeSubstanceIdsInModel.contains(substanceToCure.getId())
         );
 
+        List<ActiveSubstanceEntity> lastList = new ArrayList<>();
+
+        for(ActiveSubstanceEntity entity: listOfActiveSubstancesToCureDisease) {
+            if(searchEngineDTO.getPregnance()) {
+                if(entity.getPregnance())
+                    lastList.add(entity);
+            } else {
+                lastList.add(entity);
+            }
+        }
+
         diseaseDTO.setActiveSubstancesDTOList(
-                listOfActiveSubstancesToCureDisease.stream()
+                lastList.stream()
                         .map(activeSubstancesMapper::mapActiveSubstancesEntityToActiveSubstancesDTO)
                         .collect(Collectors.toList())
         );
