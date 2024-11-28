@@ -4,6 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import pl.engineer.active.substances.dto.InfoDTO;
 
+/**
+ * Reponse helper catches exceptions for @ExceptionAdviceController
+ * */
 public class ResponseHelper {
     public static ResponseEntity<InfoDTO> response400(String e){
         return new ResponseEntity<>(new InfoDTO(e), HttpStatus.BAD_REQUEST);

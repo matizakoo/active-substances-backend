@@ -21,22 +21,39 @@ import static pl.engineer.active.substances.controller.advice.Endpoint.*;
 public class ActiveSubstancesDiseasesConflictController {
     private final ActiveSubstancesDiseasesConflictService activeSubstancesDiseasesConflictService;
     private final DiseaseService diseaseService;
+
+    /**
+     * Create conflict with between ActiveSubstanceEntity and DiseaseEntity
+     * @param activeSubstancesDiseasesConflictDTO which represents @ActiveSubstanceDTO and list of @DiseaseDTO
+     * */
     @PostMapping
     private ResponseEntity<InfoDTO> createConflict(@RequestBody ActiveSubstancesDiseasesConflictDTO activeSubstancesDiseasesConflictDTO) {
         activeSubstancesDiseasesConflictService.createActiveSubstancesDiseasesConflict(activeSubstancesDiseasesConflictDTO);
         return ResponseEntity.ok(new InfoDTO("ok"));
     }
 
+    /**
+     * Returns @ActiveSubstanceDiseaseConflictDTO which represents conflict between @ActiveSubstanceEntity and list of @DiseaseEntity
+     * */
     @GetMapping
     private ResponseEntity<List<ActiveSubstancesDiseasesConflictDTO>> getAll() {
         return ResponseEntity.ok(activeSubstancesDiseasesConflictService.getConflictsGroupedBySubstance());
     }
 
+    /**
+     * Returns list of @DiseaseDTO without conflict with @ActiveSubstanceEntity between them
+     * @param id disease
+     * */
     @GetMapping(value = "/activeSubstanceId/{id}")
     private ResponseEntity<List<DiseaseDTO>> getDiseasesNotInConflictWithActiveSubstance(@PathVariable(name = "id") Integer id) {
         return ResponseEntity.ok(diseaseService.getAllDiseasesNotInConflictWithActiveSubstance(id));
     }
 
+    /**
+     * Remove conflicting relation between @ActiveSubstanceEntity and @DiseaseEntity
+     * @param id id of active substance
+     * @param id2 id of disease
+     * */
     @DeleteMapping
     private ResponseEntity<InfoDTO> getDiseasesNotInConflictWithActiveSubstance(@RequestParam(name = "id") Integer id,
                                                                                          @RequestParam(name = "id2") Integer id2) {

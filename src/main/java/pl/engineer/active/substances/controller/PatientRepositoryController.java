@@ -47,6 +47,11 @@ public class PatientRepositoryController {
     @Autowired
     private PatientDiseaseRepository patientDiseaseRepository;
 
+    /**
+     * Create new @PatientEntity
+     * @param patientEntity DTO of new patient
+     * @param doctorName string of doctorName
+     * */
     @PostMapping
     public ResponseEntity<InfoDTO> addNewPatient(@RequestBody PatientDTO patientEntity, @RequestParam(name = "principal") String doctorName) {
         System.out.println(doctorName);
@@ -54,12 +59,21 @@ public class PatientRepositoryController {
         return ResponseEntity.ok(new InfoDTO("ok"));
     }
 
+    /**
+     * Create new disease for patient
+     * @param patientDiseaseSubstanceDTO
+     * */
     @PostMapping(value = "/addNewDiseaseForPatient")
     public ResponseEntity<InfoDTO> addNewPatient(@RequestBody PatientDiseaseSubstanceDTO patientDiseaseSubstanceDTO) {
         patientService.addNewDiseaseForPatient(patientDiseaseSubstanceDTO);
         return ResponseEntity.ok(new InfoDTO("ok"));
     }
 
+    /**
+     * Delete disease for patient
+     * @param id patient
+     * @param id2 disease
+     * */
     @DeleteMapping(value = "/deleteDiseaseForPatient")
     public ResponseEntity<InfoDTO> deleteDiseaseForPatient(@RequestParam(name = "id") Integer id,
                                                            @RequestParam(name = "id2") Integer id2) {
@@ -67,6 +81,10 @@ public class PatientRepositoryController {
         return ResponseEntity.ok(new InfoDTO("ok"));
     }
 
+    /**
+     * Delete patient
+     * @param id patient
+     * */
     @DeleteMapping(value = "/deletePatient")
     public ResponseEntity<InfoDTO> deleteDiseaseForPatient(@RequestParam(name = "idPatient") Integer id) {
         System.out.println(id);
@@ -75,12 +93,18 @@ public class PatientRepositoryController {
     }
 
 
-
+    /**
+     * Returns list of @PatientDTO
+     * */
     @GetMapping(value = "/all")
     public ResponseEntity<List<PatientDTO>> getAll() {
         return ResponseEntity.ok(patientService.getAll());
     }
 
+    /**
+     * Returns one patient by id
+     * @param idPatient patient
+     * */
     @GetMapping(value = "/getOne")
     public ResponseEntity<PatientDiseaseSubstanceDTO> get(@RequestParam(value = "idPatient") String idPatient) {
         PatientEntity patientEntity = patientRepository.findById(Integer.valueOf(idPatient)).get();
@@ -116,10 +140,12 @@ public class PatientRepositoryController {
         return ResponseEntity.ok(patientDiseaseSubstanceDTO);
     }
 
+    /**
+     * Returns list of @DiseaseDTO for patient
+     * @param id patient
+     * */
     @GetMapping(value = "/getDiseasesForPatient")
     public ResponseEntity<List<DiseaseDTO>> getDiseasesForPatient(@RequestParam(name = "idPatient") Integer id) {
-        System.out.println(id);
-        System.out.println(diseaseService.getDiseasesNotExistingForPatient(id));
         return ResponseEntity.ok(diseaseService.getDiseasesNotExistingForPatient(id));
     }
 }

@@ -23,17 +23,26 @@ import static pl.engineer.active.substances.controller.advice.Endpoint.*;
 @AllArgsConstructor
 public class ActiveSubstancesConflictController {
     private final ActiveSubstancesConflictService activeSubstancesConflictService;
+    /**
+     * Retruns list of @ActiveSubstanceConflictDTO which represents all conflicting relations with @ActiveSubstanceEntity
+     * */
     @GetMapping
     public ResponseEntity<List<ActiveSubstanceConflictDTO>> test() {
         return ResponseEntity.ok(activeSubstancesConflictService.findAll());
     }
 
+    /**
+     * Create conflict between @ActiveSubstanceEntity
+     * */
     @PostMapping
     public ResponseEntity<InfoDTO> createConflict(@RequestBody ActiveSubstanceConflictDTO activeSubstanceConflictDTO) {
         String info = activeSubstancesConflictService.createConflict(activeSubstanceConflictDTO);
         return ResponseEntity.ok(new InfoDTO(info));
     }
 
+    /**
+     * Remove conflict between @ActiveSubstnaceEntity
+     * */
     @DeleteMapping
     public ResponseEntity<InfoDTO> deleteConflict(@RequestParam(name = "id") Integer id, @RequestParam(name = "id2") Integer id2) {
         activeSubstancesConflictService.deleteConflict(id, id2);

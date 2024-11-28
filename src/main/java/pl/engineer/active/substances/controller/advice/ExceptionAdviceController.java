@@ -9,6 +9,9 @@ import pl.engineer.active.substances.exception.ActiveSubstanceException;
 import pl.engineer.active.substances.exception.CategoryException;
 import pl.engineer.active.substances.exception.ContractorException;
 
+/**
+ * Exception advice controller to catch exceptions by default and return error response
+ * */
 @ControllerAdvice
 public class ExceptionAdviceController {
     @ExceptionHandler(RuntimeException.class)

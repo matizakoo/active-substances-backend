@@ -23,6 +23,10 @@ import static pl.engineer.active.substances.controller.advice.Endpoint.DOCTOR;
 public class DiseaseController {
     private final DiseaseService diseaseService;
     private final CureService cureService;
+    /**
+     * Create @ActiveSubstanceEntity
+     * @param diseaseDTO
+     * */
     @PostMapping
     public ResponseEntity<InfoDTO> createActiveSubstance(@RequestBody @Valid DiseaseDTO diseaseDTO) {
         diseaseService.addNewDisease(diseaseDTO);

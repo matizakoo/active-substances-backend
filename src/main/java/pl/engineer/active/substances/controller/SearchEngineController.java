@@ -23,6 +23,12 @@ import static pl.engineer.active.substances.controller.advice.Endpoint.*;
 @AllArgsConstructor
 public class SearchEngineController {
     private final SearchEngineService searchEngineService;
+
+    /**
+     * Returns list of SearchEngineModel which represents all available active substances for disease
+     * based on current diesases and active substances
+     * @param searchEngineDTO patient
+     * */
     @PostMapping
     public ResponseEntity<List<SearchEngineModel>> getActiveSubstancesForChoosenDiseases(@RequestBody SearchEngineDTO searchEngineDTO) {
         List<SearchEngineModel> resultList = new ArrayList<>();
