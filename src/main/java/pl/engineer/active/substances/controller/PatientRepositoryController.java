@@ -1,5 +1,6 @@
 package pl.engineer.active.substances.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletPath;
 import org.springframework.http.ResponseEntity;
@@ -26,26 +27,18 @@ import static pl.engineer.active.substances.controller.advice.Endpoint.DOCTOR;
 import static pl.engineer.active.substances.controller.advice.Endpoint.PATIENT;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping(value = DOCTOR + PATIENT)
 public class PatientRepositoryController {
-    @Autowired
-    private PatientRepository patientRepository;
-    @Autowired
-    private PatientMapper patientMapper;
-    @Autowired
-    private DiseaseMapper diseaseMapper;
-    @Autowired
-    private ActiveSubstancesMapper activeSubstancesMapper;
-    @Autowired
-    private PatientService patientService;
-    @Autowired
-    private UserMapper userMapper;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private DiseaseService diseaseService;
-    @Autowired
-    private PatientDiseaseRepository patientDiseaseRepository;
+    private final PatientRepository patientRepository;
+    private final PatientMapper patientMapper;
+    private final DiseaseMapper diseaseMapper;
+    private final ActiveSubstancesMapper activeSubstancesMapper;
+    private final PatientService patientService;
+    private final UserMapper userMapper;
+    private final UserRepository userRepository;
+    private final DiseaseService diseaseService;
+    private final PatientDiseaseRepository patientDiseaseRepository;
 
     /**
      * Create new @PatientEntity
@@ -107,37 +100,7 @@ public class PatientRepositoryController {
      * */
     @GetMapping(value = "/getOne")
     public ResponseEntity<PatientDiseaseSubstanceDTO> get(@RequestParam(value = "idPatient") String idPatient) {
-        PatientEntity patientEntity = patientRepository.findById(Integer.valueOf(idPatient)).get();
-        PatientDTO patientDTO = patientMapper.toPatientDTO(patientEntity);
-        Map<DiseaseDTO, List<ActiveSubstanceDTO>> map = new LinkedHashMap<>();
-        for(PatientDiseaseSubstanceEntity entity: patientEntity.getPatientDiseaseSubstances()) {
-            DiseaseDTO diseaseDTO = diseaseMapper.mapActiveSubstancesEntityToActiveSubstancesDTO(entity.getDisease());
-            ActiveSubstanceDTO activeSubstanceDTO = activeSubstancesMapper.mapActiveSubstancesEntityToActiveSubstancesDTO(entity.getActiveSubstance());
-            if (!map.containsKey(diseaseDTO)) {
-                map.put(diseaseDTO, new ArrayList<>(List.of(activeSubstanceDTO)));
-            } else {
-                map.get(diseaseDTO).add(activeSubstanceDTO);
-            }
-        }
-        PatientDiseaseSubstanceDTO patientDiseaseSubstanceDTO = null;
-        List<DiseaseActiveSubstancesDTO> diseaseActiveSubstancesDTO = new ArrayList<>();
-
-        for (Map.Entry<DiseaseDTO, List<ActiveSubstanceDTO>> entry : map.entrySet()) {
-            DiseaseDTO diseaseDTO = entry.getKey();
-            List<ActiveSubstanceDTO> activeSubstances = entry.getValue();
-
-            diseaseActiveSubstancesDTO.add(
-                    new DiseaseActiveSubstancesDTO(diseaseDTO, activeSubstances)
-            );
-        }
-        UserEntity userEntity = patientRepository.findUserByPatientId(Integer.valueOf(idPatient));
-
-        patientDiseaseSubstanceDTO = new PatientDiseaseSubstanceDTO(
-                userMapper.mapToUserDTO(patientEntity.getUserEntity()),
-                patientDTO,
-                diseaseActiveSubstancesDTO);
-
-        return ResponseEntity.ok(patientDiseaseSubstanceDTO);
+        return ResponseEntity.ok(patientService.getOnePatientById(idPatient));
     }
 
     /**

@@ -3,17 +3,21 @@ package pl.engineer.active.substances.service;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.engineer.active.substances.dto.DiseaseDTO;
-import pl.engineer.active.substances.entity.CureEntity;
-import pl.engineer.active.substances.entity.DiseaseEntity;
+import pl.engineer.active.substances.dto.*;
+import pl.engineer.active.substances.entity.*;
 import pl.engineer.active.substances.exception.ActiveSubstanceException;
 import pl.engineer.active.substances.mapper.ActiveSubstancesMapper;
 import pl.engineer.active.substances.mapper.DiseaseMapper;
+import pl.engineer.active.substances.mapper.PatientMapper;
+import pl.engineer.active.substances.mapper.UserMapper;
 import pl.engineer.active.substances.repository.ActiveSubstancesDiseasesConflictRepository;
 import pl.engineer.active.substances.repository.DiseaseRepository;
+import pl.engineer.active.substances.repository.PatientRepository;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DiseaseService {
@@ -25,6 +29,13 @@ public class DiseaseService {
     private DiseaseMapper diseaseMapper;
     @Autowired
     private ActiveSubstancesMapper activeSubstancesMapper;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private PatientRepository patientRepository;;
+    @Autowired
+    private PatientMapper patientMapper;
+
 
     @Transactional
     public void save(DiseaseEntity diseaseEntity) {
