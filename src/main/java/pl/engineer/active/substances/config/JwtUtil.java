@@ -52,6 +52,7 @@ public class JwtUtil {
                 .withExpiresAt(new Date(new Date().getTime() + 1000000 * 90 * 60))
                 .withClaim("roles", roles)
                 .withClaim("principal", ((User) authResult.getPrincipal()).getUsername())
+                .withClaim("doctor", ((User) authResult.getPrincipal()).getUsername())
                 .sign(algorithm);
     }
 

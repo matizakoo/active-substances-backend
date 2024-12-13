@@ -6,9 +6,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.engineer.active.substances.dto.PatientDTO;
 import pl.engineer.active.substances.entity.PatientEntity;
 import pl.engineer.active.substances.entity.UserEntity;
 
+import java.util.List;
 import java.util.Optional;
 
 import static pl.engineer.active.substances.controller.advice.Endpoint.*;
@@ -20,4 +22,6 @@ public interface PatientRepository extends JpaRepository<PatientEntity, Integer>
 
     @Query("SELECT p.userEntity FROM PatientEntity p WHERE p.id = :patientId")
     UserEntity findUserByPatientId(@Param("patientId") Integer patientId);
+
+    List<PatientEntity> findByUserEntityId(Integer id);
 }

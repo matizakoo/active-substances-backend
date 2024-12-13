@@ -90,8 +90,11 @@ public class PatientRepositoryController {
      * Returns list of @PatientDTO
      * */
     @GetMapping(value = "/all")
-    public ResponseEntity<List<PatientDTO>> getAll() {
-        return ResponseEntity.ok(patientService.getAll());
+    public ResponseEntity<List<PatientDTO>> getAll(@RequestParam(name = "idPatient") String id) {
+        Long x = userRepository.findByUsername(id).get().getId();
+        return ResponseEntity.ok(patientService.getAllForDoctor(
+                x.intValue()
+        ));
     }
 
     /**
@@ -99,7 +102,8 @@ public class PatientRepositoryController {
      * @param idPatient patient
      * */
     @GetMapping(value = "/getOne")
-    public ResponseEntity<PatientDiseaseSubstanceDTO> get(@RequestParam(value = "idPatient") String idPatient) {
+    public ResponseEntity<PatientDiseaseSubstanceDTO> get(@RequestParam(value = "idPatient") String idPatient,
+                                                          @RequestParam(value = "idDoctor") String idDoctor) {
         return ResponseEntity.ok(patientService.getOnePatientById(idPatient));
     }
 

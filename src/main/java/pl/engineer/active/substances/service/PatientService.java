@@ -91,6 +91,17 @@ public class PatientService {
         return list;
     }
 
+    public List<PatientDTO> getAllForDoctor(Integer id) {
+        List<PatientDTO> list = new ArrayList<>();
+        for(PatientEntity patient: patientRepository.findByUserEntityId(id)) {
+            PatientDTO patientDTO = patientMapper.toPatientDTO(patient);
+            patientDTO.setUserDTO(userMapper.mapToUserDTO(patient.getUserEntity()));
+            list.add(patientDTO);
+        }
+
+        return list;
+    }
+
     public void addNewDiseaseForPatient(PatientDiseaseSubstanceDTO patientDiseaseSubstanceDTO) {
         for(ActiveSubstanceDTO activeSubstanceDTO: patientDiseaseSubstanceDTO.getDiseaseActiveSubstancesDTOList().get(0).getActiveSubstanceDTO()) {
             PatientDiseaseSubstanceEntity act = new PatientDiseaseSubstanceEntity(
