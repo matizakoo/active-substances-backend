@@ -53,7 +53,7 @@ public class SecurityConfig {
                         .cacheControl(cache -> cache.disable()))
                 .authorizeHttpRequests(
                         a ->
-                                a.requestMatchers("/api/v1/login", "/api/v1/register", "/api/v1/unsecured", "/category")
+                                a.requestMatchers("/api/v1/login")
                                         .permitAll()
                                         .requestMatchers("/doctor/**").hasAnyRole("DOCTOR", "ADMIN")
                                         .requestMatchers("/**").permitAll()
