@@ -102,8 +102,7 @@ public class PatientRepositoryController {
      * @param idPatient patient
      * */
     @GetMapping(value = "/getOne")
-    public ResponseEntity<PatientDiseaseSubstanceDTO> get(@RequestParam(value = "idPatient") String idPatient,
-                                                          @RequestParam(value = "idDoctor") String idDoctor) {
+    public ResponseEntity<PatientDiseaseSubstanceDTO> get(@RequestParam(value = "idPatient") String idPatient) {
         return ResponseEntity.ok(patientService.getOnePatientById(idPatient));
     }
 
